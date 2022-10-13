@@ -10,71 +10,89 @@
 # 1 2 3 4
 # 5 7 9 10
 
+from random import random
 
-def input_number (invite_msg, exeption_msg):
+def input_natural_number (invite_msg, exeption_msg):
     user_input = input(invite_msg)
     try:
         if int(user_input) > 0:
             return(int(user_input))
         print(exeption_msg)
-        return input_number(invite_msg, exeption_msg)
+        return input_natural_number(invite_msg, exeption_msg)
     except:
         print(exeption_msg)
-        return input_number(invite_msg, exeption_msg)  # Не нравится, что дважды повторяется.. можно ли как-то объеденить??
+        return input_natural_number(invite_msg, exeption_msg)  # Не нравится, что дважды повторяется.. можно ли как-то объеденить??
 
-def sorting():
-    return
+def input_whole_number (invite_msg, exeption_msg):
+    user_input = input(invite_msg)
+    try:
+        return(int(user_input))
+    except:
+        print(exeption_msg)
+        return input_whole_number(invite_msg, exeption_msg) 
+
+def table_create(rows, cols, min, max):
+    if max > min: max, min = min, max
+    table = []
+    for i in range(rows):
+        table_rows = []
+        for j in range(cols):
+            table_rows.append(int(min + (max-min)*random()))
+        table.append(table_rows)
+    return table
+
+def table_sorting(table):
+    # расплетаем табличку в одномерный массив
+    monoarray = []
+    for i in range(len(table)):
+        for j in range(len(table[i])):
+            monoarray.append(table[i][j])
+   
+    array_sorting(monoarray) 
+
+    # Обратно сплетаем одномерный массив в табличку
+    counter = 0
+    sorted_table = []
+    for i in range(len(table)):
+        sorted_table_row = []
+        for j in range(len(table[i])):
+            sorted_table_row.append(monoarray[counter])
+            counter +=1
+        sorted_table.append(sorted_table_row)
+
+    return sorted_table
+
+def array_sorting(array):
+    iteration = 0
+    for i in range(len(array)):
+        min_el = array[iteration]
+        min_pos = iteration
+        for j in range(iteration, len(array)):
+            if array[j] < min_el:
+                min_el = array[j]
+                min_pos = j                  
+        array[iteration], array[min_pos] = array[min_pos], array[iteration]
+        iteration += 1
 
 
-def table_min_max_sort (table):
-    rows = len(table[0]) 
-    cols = len(table[1]) // нет!
+# основной код
+exeption_msg_1 = 'Только натуральные числа!'
+exeption_msg_2 = 'Только целые числа!'
 
-    x_pos = 0
-    y_pos = 0
-
-    for i in table:
-        for j in i:
-            if j < table [x_pox][y_pos]:
-                
-            print()
-        print()
-    
-    return
-
-    for (int m = 0; m < table.GetLength(0) * table.GetLength(1); m++) // все операции повторяем столько раз, сколько элементов в массиве 
-                                                                      // наверное, можно сократить в два раза, если одновременно отсеивать
-                                                                      // и минимальный и максимальный элемент в разные углы матрицы
-    {
-        int minPosI = 0, // позиции элемента, которые будем запоминать
-            minPosJ = 0;
-
-        for (int i = 0; i < rows; i++)  // теперь пробегаемся по массиву в поисках позиции элемента с минимальным значением
-        {
-            for (int j = 0; j < cols; j++) 
-            {
-                 if (table[i,j] < table[minPosI,minPosJ])
-                {
-                    minPosI = i;
-                    minPosJ = j;
-                } 
-            }
-        }
-       
-        int temp = table[rows-1,cols-1];  // свапаем последний элемент таблицы с минимальным, не забывая, что отсчёт массива начинается с нуля
-        table[rows-1,cols-1] = table [minPosI,minPosJ];
-        table[minPosI,minPosJ] = temp;
-
-        cols-=1; // убираем крайний правый элемент в строчке. В случае, если это был последний, тогда убираем нижнюю строчку
-        if (cols == 0)
-        {
-            cols = table.GetLength(1);
-            rows -= 1;
-        }
-    }
-
-exeption_msg = 'Только натуральные числа!'
-
+print('Создание, наполнение псевдослучайными числами и сортировка прямоугольного массива')
 print('Укажите размер массива')
-x = input_number('Количество строчек: ', exeption_msg)
-y = input_number('Количество столбцов: ', exeption_msg)
+x = input_natural_number('Количество строчек: ', exeption_msg_1)
+y = input_natural_number('Количество столбцов: ', exeption_msg_1)
+min = input_whole_number('Укажите минимальное значение: ', exeption_msg_2)
+max = input_whole_number('Укажите максимальное значение: ', exeption_msg_2)
+
+matrix = table_create(x,y,min,max) # задаём матрицу
+
+for i in range (len(matrix)):
+    print(matrix[i])
+
+matrix = table_sorting(matrix) # сортируем матрицу
+
+print('___________________')
+for i in range (len(matrix)):
+    print(matrix[i])
