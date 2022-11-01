@@ -17,12 +17,13 @@ def input_natural_number (invite_msg, exeption_msg):
     try:
         if int(user_input) > 0:
             return(int(user_input))
-        print(exeption_msg)
-        return input_natural_number(invite_msg, exeption_msg)
+        print(exeption_msg)       
     except:
         print(exeption_msg)
-        return input_natural_number(invite_msg, exeption_msg)  # Не нравится, что дважды повторяется.. можно ли как-то объеденить??
 
+    return input_natural_number(invite_msg, exeption_msg)  
+
+    
 def input_whole_number (invite_msg, exeption_msg):
     user_input = input(invite_msg)
     try:
