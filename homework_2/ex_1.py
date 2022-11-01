@@ -10,13 +10,13 @@
 
 from fractions import Fraction
 
-def num_input (text):
-    a = input(text)
+def num_input (invite_msg):
+    user_input = input(invite_msg)
     try:
-        return(Fraction(a))
+        return(Fraction(user_input))
     except:
         print("Нужно имено число!")
-        return num_input(text)
+        return num_input(invite_msg)
 
 def convert_fract_to_whole(frac_num):
     if frac_num < 0 : frac_num = -frac_num # убираем возможный минус
